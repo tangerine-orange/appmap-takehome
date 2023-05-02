@@ -5,32 +5,33 @@ const open = require('sqlite').open;
 const PORT = 8080;
 
 open({ filename: './url_shortener.db', driver: sqlite3.Database }).then((db) => {
+    db.run('CREATE TABLE IF NOT EXISTS urls (id INTEGER PRIMARY KEY AUTOINCREMENT, original TEXT, shortened TEXT)');
+
+
+    app.get('/urls', async (req, res) => {
+        const urls = await db.all('SELECT * FROM urls');
+        res.json(urls);
+    });
+    
+    // :url is expected to be UTF-8 encoded
+    app.post('/url/:url', async (req, res) => {
+        const { url } = req.params;
+        await db.run('INSERT INTO urls (url) VALUES (?)', url);
+        res.sendStatus(201);
+    })
+
+    app.get('/urls/:id', async (req, res) => {
+        const { id } = req.params;
+        const url = await db.get('SELECT * FROM urls WHERE id = ?', id);
+        if (url) {
+          res.json(url);
+        } else {
+          res.status(404).send('URL not found');
+        }
+    });
+
     app.listen(
         PORT,
         () => console.log(`Running at http://localhost:${PORT}`)
     );
-    
-    app.get('/', async (req, res) => {
-        let output = "";
-        try {
-            const rows = await db.all("SELECT id, name FROM urls");
-            rows.forEach((row) => {
-                output += row.id + " " + row.name + "\n";
-            })
-            res.status(200).send(output);
-        } catch (err) {
-            console.log(err);
-            res.status(500).send("Internal Server Error");
-        }
-    });
-    
-    // :uri is expected to be UTF-8 encoded
-    app.post('/url/:url', (req, res) => {
-        const { url } = req.params;
-    
-        db.run("CREATE TABLE IF NOT EXISTS urls (id INTEGER PRIMARY KEY, name TEXT)");
-        db.run("INSERT INTO urls (name) VALUES (?)", [url]);
-    
-        res.status(200).send(url);
-    })
 });
