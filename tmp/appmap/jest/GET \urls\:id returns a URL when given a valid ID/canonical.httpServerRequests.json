@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /urls/:id",
-    "parameters": "(:id)",
-    "status": 200
-  }
-]
