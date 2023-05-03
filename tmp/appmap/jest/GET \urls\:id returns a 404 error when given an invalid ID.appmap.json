@@ -1,0 +1,226 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "thread_id": 0,
+      "id": 1,
+      "http_server_request": {
+        "protocol": "HTTP/1.1",
+        "request_method": "GET",
+        "path_info": "/urls",
+        "normalized_path_info": "/urls",
+        "headers": {
+          "host": "127.0.0.1:50554",
+          "accept-encoding": "gzip, deflate",
+          "connection": "close"
+        }
+      }
+    },
+    {
+      "event": "return",
+      "thread_id": 0,
+      "id": 2,
+      "parent_id": 1,
+      "elapsed": 0.0010639999999999645,
+      "http_server_response": {
+        "status_code": 200,
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "2",
+          "etag": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+        },
+        "return_value": {
+          "name": "return",
+          "class": "Array",
+          "object_id": 11,
+          "value": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "event": "call",
+      "thread_id": 0,
+      "id": 3,
+      "http_client_request": {
+        "request_method": "GET",
+        "url": "http://127.0.0.1:50554/urls",
+        "headers": {
+          "host": "127.0.0.1:50554"
+        }
+      }
+    },
+    {
+      "event": "return",
+      "thread_id": 0,
+      "id": 4,
+      "parent_id": 3,
+      "elapsed": 0.003872999999999934,
+      "http_client_response": {
+        "status_code": 200,
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "application/json; charset=utf-8",
+          "content-length": "2",
+          "etag": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\"",
+          "date": "Wed, 03 May 2023 22:07:26 GMT",
+          "connection": "close"
+        },
+        "return_value": {
+          "name": "return",
+          "class": "Array",
+          "object_id": 12,
+          "value": "",
+          "size": 0
+        }
+      }
+    },
+    {
+      "event": "call",
+      "thread_id": 0,
+      "id": 5,
+      "http_server_request": {
+        "protocol": "HTTP/1.1",
+        "request_method": "GET",
+        "path_info": "/urls/1",
+        "normalized_path_info": "/urls/:id",
+        "headers": {
+          "host": "127.0.0.1:50556",
+          "accept-encoding": "gzip, deflate",
+          "connection": "close"
+        }
+      },
+      "message": [
+        {
+          "name": ":id",
+          "class": "string",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "event": "return",
+      "thread_id": 0,
+      "id": 6,
+      "parent_id": 5,
+      "elapsed": 0.0012409999999999854,
+      "http_server_response": {
+        "status_code": 404,
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "text/html; charset=utf-8",
+          "content-length": "13",
+          "etag": "W/\"d-GGADl3lI8gBfkBaoQapIv1P1IZk\""
+        },
+        "return_value": null
+      }
+    },
+    {
+      "event": "call",
+      "thread_id": 0,
+      "id": 7,
+      "http_client_request": {
+        "request_method": "GET",
+        "url": "http://127.0.0.1:50556/urls/1",
+        "headers": {
+          "host": "127.0.0.1:50556"
+        }
+      }
+    },
+    {
+      "event": "return",
+      "thread_id": 0,
+      "id": 8,
+      "parent_id": 7,
+      "elapsed": 0.0033360000000000126,
+      "http_client_response": {
+        "status_code": 404,
+        "headers": {
+          "x-powered-by": "Express",
+          "content-type": "text/html; charset=utf-8",
+          "content-length": "13",
+          "etag": "W/\"d-GGADl3lI8gBfkBaoQapIv1P1IZk\"",
+          "date": "Wed, 03 May 2023 22:07:26 GMT",
+          "connection": "close"
+        },
+        "return_value": null
+      }
+    }
+  ],
+  "version": "1.8.0",
+  "metadata": {
+    "name": "GET /urls/:id returns a 404 error when given an invalid ID",
+    "app": "appmap-takehome",
+    "labels": [],
+    "language": {
+      "name": "javascript",
+      "version": "ES.Next",
+      "engine": "node@18.16.0"
+    },
+    "frameworks": [],
+    "client": {
+      "name": "@appland/appmap-agent-js",
+      "version": "13.8.0",
+      "url": "https://github.com/getappmap/appmap-agent-js.git/#readme"
+    },
+    "recorder": {
+      "name": "jest"
+    },
+    "git": {
+      "repository": "APPMAP-MISSING-REPOSITORY-NAME",
+      "branch": "master",
+      "commit": "55c8499803fe196275396d51a4b6adf3833adb14",
+      "status": [
+        "M app.test.js",
+        "M appmap.yml",
+        "M package.json",
+        "M url_shortener.db",
+        "M url_shortener.db-shm",
+        "M url_shortener.db-wal",
+        "?? .vscode/"
+      ],
+      "tag": null,
+      "annotated_tag": null,
+      "commits_since_tag": null,
+      "commits_since_annotated_tag": null
+    },
+    "test_status": "succeeded"
+  },
+  "classMap": [
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /urls"
+        },
+        {
+          "type": "route",
+          "name": "GET /urls/:id"
+        }
+      ]
+    },
+    {
+      "type": "external-service",
+      "name": "127.0.0.1:50554",
+      "children": [
+        {
+          "type": "external-route",
+          "name": "GET http://127.0.0.1:50554/urls"
+        }
+      ]
+    },
+    {
+      "type": "external-service",
+      "name": "127.0.0.1:50556",
+      "children": [
+        {
+          "type": "external-route",
+          "name": "GET http://127.0.0.1:50556/urls/1"
+        }
+      ]
+    }
+  ]
+}

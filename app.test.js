@@ -1,6 +1,5 @@
 const request = require('supertest');
 const app = require('./app');
-const sqlite = require('better-sqlite3');
 const db = require('./db')
 
 
@@ -16,6 +15,7 @@ beforeEach(() => {
 });
 
 afterAll(() => {
+    db.prepare(`DROP TABLE IF EXISTS urls`).run();
     db.close();
 });
 
@@ -38,37 +38,47 @@ describe('GET /urls', () => {
           { id: 2, original: 'https://www.google.com', shortened: 'def456' }
         ]);
     });
+});
 
-    describe('POST /url/:url', () => {
-        test('returns a short URL path when given a valid URL', async () => {
-            const response = await request(app).post('/url/https%3A%2F%2Fwww.example.com');
-            expect(response.status).toBe(200);
-            expect(response.body).toEqual({ shortUrlPath: 'abc123' });
-        
-            const all = await request(app).get('/urls');
+describe('POST /url/:url', () => {
+    test('returns a short URL path when given a valid URL', async () => {
+        const response = await request(app).post('/url/https%3A%2F%2Fwww.example.com');
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({ shortUrlPath: 'abc123' });
+    
+        const all = await request(app).get('/urls');
 
-            // Verify that the URL was inserted into the database
-            const url = db.prepare('SELECT * FROM urls WHERE original = ?').get('https://www.example.com');
-            expect(url).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
-        });
+        // Verify that the URL was inserted into the database
+        const url = db.prepare('SELECT * FROM urls WHERE original = ?').get('https://www.example.com');
+        expect(url).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
     });
+});
 
-    describe('GET /urls/:id', () => {
-        test('returns a URL when given a valid ID', async () => {
-          // Insert a URL into the database
-          db.prepare('INSERT INTO urls (original, shortened) VALUES (?, ?)').run('https://www.example.com', 'abc123');
-      
-          const response = await request(app).get('/urls/1');
-          expect(response.status).toBe(200);
-          expect(response.body).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
-        });
-      
-        test('returns a 404 error when given an invalid ID', async () => {
-            const all = await request(app).get('/urls');
-          const response = await request(app).get('/urls/1');
-          expect(response.status).toBe(404);
-          expect(response.text).toBe('URL not found');
-        });
+describe('GET /urls/:id', () => {
+    test('returns a URL when given a valid ID', async () => {
+        // Insert a URL into the database
+        db.prepare('INSERT INTO urls (original, shortened) VALUES (?, ?)').run('https://www.example.com', 'abc123');
+    
+        const response = await request(app).get('/urls/1');
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
     });
     
+    test('returns a 404 error when given an invalid ID', async () => {
+        const all = await request(app).get('/urls');
+        const response = await request(app).get('/urls/1');
+        expect(response.status).toBe(404);
+        expect(response.text).toBe('URL not found');
+    });
+});
+
+describe('POST /url/:url then GET /urls/:id', () => {
+    test('returns a URL when given a valid ID', async () => {
+        // Insert a URL into the database
+        await request(app).post('/url/https%3A%2F%2Fwww.example.com');
+    
+        const getResponse = await request(app).get('/urls/1');
+        expect(getResponse.status).toBe(200);
+        expect(getResponse.body).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
+        });
 });

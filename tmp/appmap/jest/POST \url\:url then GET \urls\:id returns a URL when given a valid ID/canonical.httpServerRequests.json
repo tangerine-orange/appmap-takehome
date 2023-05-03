@@ -1,0 +1,12 @@
+[
+  {
+    "route": "GET /urls/:id",
+    "parameters": "(:id)",
+    "status": 200
+  },
+  {
+    "route": "POST /url/:url",
+    "parameters": "(:url)",
+    "status": 200
+  }
+]

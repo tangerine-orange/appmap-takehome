@@ -1,0 +1,36 @@
+[
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "POST /url/:url"
+      },
+      {
+        "type": "route",
+        "name": "GET /urls"
+      }
+    ]
+  },
+  {
+    "type": "external-service",
+    "name": "127.0.0.1:50548",
+    "children": [
+      {
+        "type": "external-route",
+        "name": "POST http://127.0.0.1:50548/url/https%3A%2F%2Fwww.example.com"
+      }
+    ]
+  },
+  {
+    "type": "external-service",
+    "name": "127.0.0.1:50550",
+    "children": [
+      {
+        "type": "external-route",
+        "name": "GET http://127.0.0.1:50550/urls"
+      }
+    ]
+  }
+]

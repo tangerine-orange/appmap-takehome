@@ -1,0 +1,16 @@
+[
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "POST /url/:url"
+      },
+      {
+        "type": "route",
+        "name": "GET /urls"
+      }
+    ]
+  }
+]

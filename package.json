@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "test": "NODE_ENV=test jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "appmap:manual": "npx appmap-agent-js -- npm start",
+    "appmap:test": "npx @appland/appmap record test"
   },
   "keywords": [],
   "author": "",

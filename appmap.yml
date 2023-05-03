@@ -2,3 +2,7 @@ name: appmap-takehome
 packages: []
 language: javascript
 appmap_dir: tmp/appmap
+test_recording:
+  test_commands:
+    - command: npx @appland/appmap-agent-js --recorder=jest -- npx jest
+      env: {}

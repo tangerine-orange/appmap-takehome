@@ -1,0 +1,22 @@
+[
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "GET /urls/:id"
+      }
+    ]
+  },
+  {
+    "type": "external-service",
+    "name": "127.0.0.1:50552",
+    "children": [
+      {
+        "type": "external-route",
+        "name": "GET http://127.0.0.1:50552/urls/1"
+      }
+    ]
+  }
+]
