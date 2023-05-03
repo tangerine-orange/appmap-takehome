@@ -1,0 +1,4 @@
+name: appmap-takehome
+packages: []
+language: javascript
+appmap_dir: tmp/appmap
