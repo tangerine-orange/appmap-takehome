@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
     "test": "NODE_ENV=test jest",
     "test:watch": "jest --watch",
     "appmap:manual": "npx appmap-agent-js -- npm start",

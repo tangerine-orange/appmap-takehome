@@ -2,3 +2,7 @@ TODO
 
 - Index urls on `shortened`
 - Add optional password protection
+
+
+LIMITATIONS
+- api and web app on the same server
