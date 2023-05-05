@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('./app');
+const app = require('../app');
 const db = require('./db')
 
 
@@ -19,9 +19,9 @@ afterAll(() => {
     db.close();
 });
 
-describe('GET /urls', () => {
+describe('GET /api/urls', () => {
     test('returns an empty array when there are no URLs', async () => {
-        const response = await request(app).get('/urls');
+        const response = await request(app).get('/api/urls');
         expect(response.status).toBe(200);
         expect(response.body).toEqual([]);
     });
@@ -31,7 +31,7 @@ describe('GET /urls', () => {
         db.prepare('INSERT INTO urls (original, shortened) VALUES (?, ?)').run('https://www.example.com', 'abc123');
         db.prepare('INSERT INTO urls (original, shortened) VALUES (?, ?)').run('https://www.google.com', 'def456');
     
-        const response = await request(app).get('/urls');
+        const response = await request(app).get('/api/urls');
         expect(response.status).toBe(200);
         expect(response.body).toEqual([
           { id: 1, original: 'https://www.example.com', shortened: 'abc123' },
@@ -42,11 +42,11 @@ describe('GET /urls', () => {
 
 describe('POST /url/:url', () => {
     test('returns a short URL path when given a valid URL', async () => {
-        const response = await request(app).post('/url/https%3A%2F%2Fwww.example.com');
+        const response = await request(app).post('/api/url/https%3A%2F%2Fwww.example.com');
         expect(response.status).toBe(200);
         expect(response.body).toEqual({ shortUrlPath: 'abc123' });
     
-        const all = await request(app).get('/urls');
+        const all = await request(app).get('/api/urls');
 
         // Verify that the URL was inserted into the database
         const url = db.prepare('SELECT * FROM urls WHERE original = ?').get('https://www.example.com');
@@ -59,14 +59,14 @@ describe('GET /urls/:id', () => {
         // Insert a URL into the database
         db.prepare('INSERT INTO urls (original, shortened) VALUES (?, ?)').run('https://www.example.com', 'abc123');
     
-        const response = await request(app).get('/urls/1');
+        const response = await request(app).get('/api/urls/1');
         expect(response.status).toBe(200);
         expect(response.body).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
     });
     
     test('returns a 404 error when given an invalid ID', async () => {
-        const all = await request(app).get('/urls');
-        const response = await request(app).get('/urls/1');
+        const all = await request(app).get('/api/urls');
+        const response = await request(app).get('/api/urls/1');
         expect(response.status).toBe(404);
         expect(response.text).toBe('URL not found');
     });
@@ -75,9 +75,9 @@ describe('GET /urls/:id', () => {
 describe('POST /url/:url then GET /urls/:id', () => {
     test('returns a URL when given a valid ID', async () => {
         // Insert a URL into the database
-        await request(app).post('/url/https%3A%2F%2Fwww.example.com');
+        await request(app).post('/api/url/https%3A%2F%2Fwww.example.com');
     
-        const getResponse = await request(app).get('/urls/1');
+        const getResponse = await request(app).get('/api/urls/1');
         expect(getResponse.status).toBe(200);
         expect(getResponse.body).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
         });
