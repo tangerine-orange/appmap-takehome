@@ -2,6 +2,7 @@ TODO
 
 - Index urls on `shortened`
 - Add optional password protection
+- Add SSL
 
 
 LIMITATIONS
