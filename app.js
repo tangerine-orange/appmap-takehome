@@ -2,6 +2,7 @@ const https = require('https')
 const app = require('express')();
 const fs = require('fs');
 const initializeDb = require('./scripts/initializeDb.js');
+var bodyParser = require('body-parser')
 
 initializeDb();
 
@@ -12,9 +13,12 @@ if (process.env.NODE_ENV === 'test') {
     PORT = 8080;
 }
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
 const routing = require('./routes/index.js')
 app.use('/', routing)
-
 
 https
   .createServer(

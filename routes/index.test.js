@@ -1,17 +1,16 @@
 const request = require('supertest');
 const app = require('../app');
 const db = require('../db')
-
+const generateShortUrlPath = require('../utils/generateShortUrlPath');
+const initializeDb = require('../scripts/initializeDb');
 
 jest.mock('../utils/generateShortUrlPath'); // add this line to replace the implementation with the mocked version
-
-const generateShortUrlPath = require('../utils/generateShortUrlPath'); // add this line to import the real implementation
 generateShortUrlPath.mockReturnValue('abc123'); // modify this line to set the return value of the mocked version
 
 beforeEach(() => {
     generateShortUrlPath.mockClear();
     db.prepare(`DROP TABLE IF EXISTS urls`).run();
-    db.exec('CREATE TABLE IF NOT EXISTS urls (id INTEGER PRIMARY KEY AUTOINCREMENT, original TEXT, shortened TEXT)');
+    initializeDb();
 });
 
 afterAll(() => {

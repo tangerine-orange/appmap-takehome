@@ -1,4 +1,14 @@
 const generateShortUrlPath = require('../utils/generateShortUrlPath');
+const bcrypt = require("bcrypt")
+
+const hashPassword = (password) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, function(err, hash) {
+            if (err) reject(err);
+            resolve(hash);
+        });
+    });
+};
 
 module.exports = (router, db) => {
     router.get('/api/urls', async (req, res) => {
@@ -10,8 +20,12 @@ module.exports = (router, db) => {
     router.post('/api/url/:url', async (req, res) => {
         try {
             const { url } = req.params;
+            const { readPassword, writePassword } = req.body;
             const shortUrlPath = generateShortUrlPath();
-            db.prepare('INSERT INTO urls (original, shortened) VALUES (?, ?)').run(url, shortUrlPath);
+            const hashedReadPassword = readPassword ? await hashPassword(readPassword) : '';
+            const hashedWritePassword = writePassword ? await hashPassword(writePassword) : '';
+            db.prepare('INSERT INTO urls (original, shortened, readPassword, writePassword) VALUES (?, ?, ?, ?)')
+                .run(url, shortUrlPath, hashedReadPassword, hashedWritePassword);
             res.json({ shortUrlPath });
         } catch (err) {
             console.error(err.message);
