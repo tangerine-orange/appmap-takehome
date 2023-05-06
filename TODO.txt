@@ -3,7 +3,7 @@ TODO
 - Index urls on `shortened`
 - Add optional password protection
 - Add SSL
-
+- Move db urls to .env
 
 LIMITATIONS
 - api and web app on the same server

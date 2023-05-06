@@ -1,4 +1,6 @@
+const https = require('https')
 const app = require('express')();
+const fs = require('fs');
 
 
 let PORT;
@@ -11,9 +13,16 @@ if (process.env.NODE_ENV === 'test') {
 const routing = require('./routes/index.js')
 app.use('/', routing)
 
-app.listen(
-    PORT,
-    () => console.log(`Running at http://localhost:${PORT}`)
-);
+
+https
+  .createServer(
+		// Provide the private and public key to the server by reading each
+		// file's content with the readFileSync() method.
+    {
+      key: fs.readFileSync("./.cert/key.pem"),
+      cert: fs.readFileSync("./.cert/cert.pem"),
+    },
+    app
+).listen(PORT, () => console.log(`Running at https://localhost:${PORT}`));
 
 module.exports = app;

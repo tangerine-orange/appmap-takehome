@@ -1,3 +1,5 @@
 node_modules/*
 manual_test.http
 tmp/*
+.cert/*
+client/.cert/*

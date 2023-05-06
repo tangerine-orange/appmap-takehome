@@ -10,7 +10,7 @@ function App() {
         .then((urls) => setUrls(urls));
     }, []);
     
-    const urlItems = urls ? urls.map((url, i) => <li key={i}>Original: {url.original} Shortened: {url.shortened}</li>) : [];
+    const urlItems = urls ? urls.map((url, i) => <li key={i}>id: {url.id} Original: {url.original} Shortened: {url.shortened}</li>) : [];
 
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
