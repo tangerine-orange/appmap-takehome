@@ -1,7 +1,9 @@
 const https = require('https')
 const app = require('express')();
 const fs = require('fs');
+const initializeDb = require('./scripts/initializeDb.js');
 
+initializeDb();
 
 let PORT;
 if (process.env.NODE_ENV === 'test') {
@@ -16,8 +18,6 @@ app.use('/', routing)
 
 https
   .createServer(
-		// Provide the private and public key to the server by reading each
-		// file's content with the readFileSync() method.
     {
       key: fs.readFileSync("./.cert/key.pem"),
       cert: fs.readFileSync("./.cert/cert.pem"),

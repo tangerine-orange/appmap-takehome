@@ -19,9 +19,9 @@ module.exports = (router, db) => {
         }
     });
     
-    router.get('/api/urls/:id', async (req, res) => {
-        const { id } = req.params;
-        const url = db.prepare('SELECT * FROM urls WHERE id = ?').get(id);
+    router.get('/api/urls/:shortened', async (req, res) => {
+        const { shortened } = req.params;
+        const url = db.prepare('SELECT * FROM urls WHERE shortened = ?').get(shortened);
         if (url) {
             console.log(url);
             res.json(url);

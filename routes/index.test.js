@@ -1,11 +1,11 @@
 const request = require('supertest');
 const app = require('../app');
-const db = require('./db')
+const db = require('../db')
 
 
-jest.mock('./utils/generateShortUrlPath'); // add this line to replace the implementation with the mocked version
+jest.mock('../utils/generateShortUrlPath'); // add this line to replace the implementation with the mocked version
 
-const generateShortUrlPath = require('./utils/generateShortUrlPath'); // add this line to import the real implementation
+const generateShortUrlPath = require('../utils/generateShortUrlPath'); // add this line to import the real implementation
 generateShortUrlPath.mockReturnValue('abc123'); // modify this line to set the return value of the mocked version
 
 beforeEach(() => {
@@ -54,30 +54,30 @@ describe('POST /url/:url', () => {
     });
 });
 
-describe('GET /urls/:id', () => {
-    test('returns a URL when given a valid ID', async () => {
+describe('GET /urls/:shortened', () => {
+    test('returns a URL when given a valid shortened', async () => {
         // Insert a URL into the database
         db.prepare('INSERT INTO urls (original, shortened) VALUES (?, ?)').run('https://www.example.com', 'abc123');
     
-        const response = await request(app).get('/api/urls/1');
+        const response = await request(app).get('/api/urls/abc123');
         expect(response.status).toBe(200);
         expect(response.body).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
     });
     
-    test('returns a 404 error when given an invalid ID', async () => {
+    test('returns a 404 error when given an invalid shortened', async () => {
         const all = await request(app).get('/api/urls');
-        const response = await request(app).get('/api/urls/1');
+        const response = await request(app).get('/api/urls/abc123');
         expect(response.status).toBe(404);
         expect(response.text).toBe('URL not found');
     });
 });
 
-describe('POST /url/:url then GET /urls/:id', () => {
-    test('returns a URL when given a valid ID', async () => {
+describe('POST /url/:url then GET /urls/:shortened', () => {
+    test('returns a URL when given a valid shortened', async () => {
         // Insert a URL into the database
         await request(app).post('/api/url/https%3A%2F%2Fwww.example.com');
     
-        const getResponse = await request(app).get('/api/urls/1');
+        const getResponse = await request(app).get('/api/urls/abc123');
         expect(getResponse.status).toBe(200);
         expect(getResponse.body).toEqual({ id: 1, original: 'https://www.example.com', shortened: 'abc123' });
         });
