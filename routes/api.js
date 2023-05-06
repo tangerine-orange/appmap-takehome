@@ -30,12 +30,12 @@ module.exports = (router, db) => {
         try {
             const { url } = req.params;
             const { readPassword = '', writePassword = '' } = req.body;
-            const shortUrlPath = generateShortUrlPath();
+            const shortened = generateShortUrlPath();
             const hashedReadPassword = await hashPassword(readPassword);
             const hashedWritePassword = await hashPassword(writePassword);
             db.prepare('INSERT INTO urls (original, shortened, readPassword, writePassword) VALUES (?, ?, ?, ?)')
-                .run(url, shortUrlPath, hashedReadPassword, hashedWritePassword);
-            res.json({ shortUrlPath });
+                .run(url, shortened, hashedReadPassword, hashedWritePassword);
+            res.json({ shortened });
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server error');

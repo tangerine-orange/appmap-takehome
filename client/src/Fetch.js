@@ -49,18 +49,20 @@ export default function Fetch() {
     React.useEffect(() => fetchUrl());
 
     const passwordPromptComponent = (
-        <form method="post" onSubmit={handleSubmit}>
-            <label>
-                Password:
-                <input type="password" name="readPassword" />
-            </label>
-            <button>Submit</button>
-        </form>
+        <div>
+            <p>Enter password to view URL</p>
+            <form method="post" onSubmit={handleSubmit}>
+                <label>
+                    Password:
+                    <input type="password" name="readPassword" />
+                </label>
+                <button>Submit</button>
+            </form>
+        </div>
     );
 
     return (
         <div>
-            Password Required for this URL
             {passwordPrompt ? passwordPromptComponent : failed ? "URL not found" : "Redirecting..."}
         </div>
     );
