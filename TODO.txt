@@ -1,7 +1,5 @@
 TODO
 
-- Add optional password protection
+- Add write password functionality
 - Move db urls to .env
-
-LIMITATIONS
-- api and web app on the same server
+- add linter for backend and client
