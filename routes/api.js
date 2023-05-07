@@ -1,23 +1,6 @@
 const generateShortUrlPath = require('../utils/generateShortUrlPath');
 const bcrypt = require("bcrypt")
-
-const hashPassword = (password) => {
-    return new Promise((resolve, reject) => {
-        bcrypt.hash(password, 10, function(err, hash) {
-            if (err) reject(err);
-            resolve(hash);
-        });
-    });
-};
-
-const comparePassword = (password, hash) => {
-    return new Promise((resolve, reject) => {
-        bcrypt.compare(password, hash, function(err, result) {
-            if (err) reject(err);
-            resolve(result);
-        });
-    });
-};
+const { hashPassword, comparePassword } = require('../utils/passwords');
 
 module.exports = (router, db) => {
     router.get('/api/urls', async (req, res) => {
@@ -54,7 +37,7 @@ module.exports = (router, db) => {
                 res.status(401).json({ error: 'Incorrect password' });
             }
         } else {
-            res.status(404).send('URL not found');
+            res.status(403).send('URL not found');
         }
     });
 };

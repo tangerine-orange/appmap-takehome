@@ -30,12 +30,10 @@ export default function Fetch() {
         .then((res) => {
             const { original } = res
             if (original) {
-                console.log('original', original)
                 window.location.href = original;
             } else if (res.error === "Incorrect password") {
                 setPasswordPrompt(true);
             } else {
-                console.log('failed')
                 setFailed(true);
             }
         })

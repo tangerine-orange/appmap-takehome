@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'test') {
     dbPath = './url_shortener.db';
 }
 
-const db = sqlite(dbPath, { verbose: console.log });
+const db = sqlite(dbPath);
 db.pragma('journal_mode = WAL');
 
 module.exports = db;

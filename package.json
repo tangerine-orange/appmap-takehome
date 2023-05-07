@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --forceExit",
     "test:watch": "jest --watch",
     "appmap:manual": "npx appmap-agent-js -- npm start",
     "appmap:test": "npx @appland/appmap record test"
