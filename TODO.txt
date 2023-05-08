@@ -3,3 +3,4 @@ TODO
 - Add write password functionality
 - Move db urls to .env
 - add linter for backend and client
+- allow client to use local server if desired

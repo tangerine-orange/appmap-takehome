@@ -21,15 +21,18 @@ app.use(bodyParser.json())
 const routing = require('./routes/index.js')
 app.use('/', routing)
 
-// https
-//   .createServer(
-//     {
-//       key: fs.readFileSync("./.cert/key.pem"),
-//       cert: fs.readFileSync("./.cert/cert.pem"),
-//     },
-//     app
-// ).listen(PORT, () => console.log(`Running at https://localhost:${PORT}`));
+if (process.env.NODE_ENV === 'production') {
+    app.listen(PORT, () => console.log(`Running at http://localhost:${PORT}`));
+} else {
+    https
+    .createServer(
+        {
+        key: fs.readFileSync("./.cert/key.pem"),
+        cert: fs.readFileSync("./.cert/cert.pem"),
+        },
+        app
+    ).listen(PORT, () => console.log(`Running at https://localhost:${PORT}`));
+}
 
-app.listen(PORT, () => console.log(`Running at http://localhost:${PORT}`));
 
 module.exports = app;

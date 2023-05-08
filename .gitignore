@@ -4,3 +4,6 @@ tmp/*
 .cert/*
 client/.cert/*
 .env
+url_shortener.db
+url_shortener.db-shm
+url_shortener.db-wal
