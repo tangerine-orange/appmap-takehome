@@ -1,5 +1,4 @@
 const generateShortUrlPath = require('../utils/generateShortUrlPath');
-const bcrypt = require("bcrypt")
 const { hashPassword, comparePassword } = require('../utils/passwords');
 
 module.exports = (router, db) => {
