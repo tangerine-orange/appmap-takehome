@@ -3,7 +3,7 @@ const app = require('express')();
 const fs = require('fs');
 const initializeDb = require('./scripts/initializeDb.js');
 var bodyParser = require('body-parser')
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 initializeDb();
 
