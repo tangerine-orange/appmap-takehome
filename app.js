@@ -3,14 +3,15 @@ const app = require('express')();
 const fs = require('fs');
 const initializeDb = require('./scripts/initializeDb.js');
 var bodyParser = require('body-parser')
+const dotenv = require('dotenv');
 
 initializeDb();
 
 let PORT;
 if (process.env.NODE_ENV === 'test') {
-    PORT = 8081;
+    PORT = process.env.TEST_PORT;
 } else {
-    PORT = 8080;
+    PORT = process.env.PORT;
 }
 
 // parse application/x-www-form-urlencoded
